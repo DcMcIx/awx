@@ -50,7 +50,7 @@ Example: 2vCPU and 4Gi of memory you will need to wait up to 15 minutes to get a
 
 During the deployment process NodePort is displayed througt the play log
 
-http://<SERVER_IP>:<NODEPORT>
+http://{{SERVER_IP}}:{{NODEPORT}}
 
 #### How to get NodePort after the deployment
 On the AWX-Operator Server :
