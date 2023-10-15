@@ -1,11 +1,4 @@
 ---
-- name: Désinstallation AWX / AWX Uninstall !
-  shell:
-    cmd: "echo 'Pause de réflexion ... Annuler Maintenant ... ou ... Advienne que pourra'"
-- name: Désinstallation AWX !
-  pause:
-    minutes: 1
-
 - name: DésInstallation AWX
   hosts: all
   become: yes

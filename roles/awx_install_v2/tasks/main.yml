@@ -21,12 +21,6 @@
     state: latest
     extra_args: "--break-system-packages"
 
-- name: Install Kubernetes Plugins Ubuntu
-  pip:
-    name: kubernetes
-    state: present
-  when: ansible_distribution == 'Ubuntu'
-
 - name: Création du Répertoire /.kube
   file:
     path: /root/.kube
