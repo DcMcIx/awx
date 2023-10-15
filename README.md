@@ -1,7 +1,7 @@
 
 # AWX Deploy - Single Node
 
-Playbook for AWX deployment on a single node with k3s on Debian 12
+Playbook for AWX deployment on a single node with k3s
 
 Please take a look at the original project for more deployment options :
 
@@ -38,3 +38,28 @@ AWX-EE with PY38 :
 ```bash
 docker.io/dcmcix/awx-ee:latest
 ```
+## FAQ
+
+#### How To access AWX GUI :
+
+During the deployment process NodePort is displayed througt the play log
+
+#### How to get NodePort after the deployment
+On the AWX-Operator Server :
+```
+kubectl config set-context --current --namespace=awx
+kubectl describe svc awx-service | grep -i NodePort | grep -v Type
+```
+#### How To retreive the GUI password :
+```
+kubectl config set-context --current --namespace=awx
+kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
+```
+#### Is the server exposed to the network/internet :
+Yes, once the AWX-Operator is installed the server will be reachable from the same local network area
+
+And NO, the server won't be exposed to the internet unless you do so by exposing the IP/NodePort
+
+#### How To set Custom AWX-EE :
+Once you connect the GUI :
+![GUI Menu](https://github.com/DcMcIx/awx/tree/main/FAQ/images/Menu_AWX.png)
