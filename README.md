@@ -1,7 +1,7 @@
 
 # AWX Deploy - Single Node
 
-Playbook for AWX deployment on a single node with k3s
+Playbook for AWX deployment on a single node with k3s on Debian 12
 
 Please take a look at the original project for more deployment options :
 
