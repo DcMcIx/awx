@@ -1,8 +1,9 @@
 ---
-- name: Désinstallation AWX !
-  shell:
-    cmd: "echo 'Pause de réflexion ... Annuler Maintenant ... ou ... Advienne que pourra'"
-- name: Désinstallation AWX !
+- name: Alerte Suppression AWX !
+  debug: 
+    msg: "Pause de réflexion ... Annuler Maintenant ... ou ... Advienne que pourra"
+
+- name: Alerte Suppression AWX !
   pause:
     minutes: 1
 
