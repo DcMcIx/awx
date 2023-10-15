@@ -1,7 +1,9 @@
 ---
 - name: Alerte Suppression AWX !
   debug: 
-    msg: "Pause de réflexion ... Annuler Maintenant ... ou ... Advienne que pourra"
+    msg: 
+      - "Pause de réflexion ... Annuler Maintenant ... ou ... Advienne que pourra"
+      - "Notez que toutes les ressources dans le Namespace awx seront supprimées ..."
 
 - name: Alerte Suppression AWX !
   pause:
