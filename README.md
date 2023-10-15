@@ -44,7 +44,7 @@ docker.io/dcmcix/awx-ee:latest
 
 You must wait a few minutes before having all the pods and services started, depending on your hardware configuration
 ```
-Exemple: 2vCPU and 4Gi of memory you will need to wait up to 15 minutes to get all started
+Example: 2vCPU and 4Gi of memory you will need to wait up to 15 minutes to get all started
 ```
 #### How To access AWX GUI :
 
