@@ -5,13 +5,13 @@ Playbook for AWX deployment on a single node with k3s
 
 Please take a look at the original project for more deployment options :
 
-[@awx-operator](https://github.com/ansible/awx-operator)
+- [Awx-Operator](https://github.com/ansible/awx-operator)
 
-[@ansible-awx](https://github.com/ansible/awx)
+- [Ansible-Awx](https://github.com/ansible/awx)
 
 ## Author
 
-- [@DcMcIx](https://www.github.com/DcMcIx)
+ - [DcMcIx](https://www.github.com/DcMcIx)
 ## Deployment
 
 To deploy AWX make sure you have ansible installed and your inventory populated with the target server :
@@ -63,6 +63,5 @@ And NO, the server won't be exposed to the internet unless you do so by exposing
 #### Is this deployment suitable for a "Production" environment :
 Note that no support is provided for this deployment (this is a personal project that I wanted to share based on the original awx/awx-operator project). If you need a reliable production environment with support, please consider looking at :
 
-https://www.redhat.com/en/technologies/management/ansible
-
-https://www.ansible.com
+ - [RedHat Ansible Automation Platform](https://www.redhat.com/en/technologies/management/ansible)
+ - [Ansible](https://www.ansible.com)
