@@ -2,11 +2,16 @@
 # AWX Deploy - Single Node
 
 Playbook for AWX deployment on a single node with k3s
+
+Please take a look at the original project for more deployment options :
+
+[@awx-operator](https://github.com/ansible/awx-operator)
+
+[@ansible-awx](https://github.com/ansible/awx)
+
 ## Author
 
 - [@DcMcIx](https://www.github.com/DcMcIx)
-
-
 ## Deployment
 
 To deploy AWX make sure you have ansible installed and your inventory populated with the target server :
