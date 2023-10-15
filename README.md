@@ -59,7 +59,3 @@ kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --
 Yes, once the AWX-Operator is installed the server will be reachable from the same local network area
 
 And NO, the server won't be exposed to the internet unless you do so by exposing the IP/NodePort
-
-#### How To set Custom AWX-EE :
-Once you connect the GUI :
-![GUI Menu](https://github.com/DcMcIx/awx/tree/main/FAQ/images/Menu_AWX.png)
