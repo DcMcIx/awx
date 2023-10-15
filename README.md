@@ -1,4 +1,4 @@
-All Credits goes to : https://github.com/ansible/awx-operator
+Based on the deployment process from : https://github.com/ansible/awx-operator
 
 After The Installation :
 
@@ -12,4 +12,6 @@ Get admin Password for GUI access :
 
 kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
 
-User The displayed password to Access the GUI
+Use The displayed password to Access the GUI
+
+NOTE: NodePort and GUI password are displayed during the playbook run
