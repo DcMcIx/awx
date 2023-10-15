@@ -109,7 +109,7 @@
 
 - name: AWX Operator Port
   shell: 
-    cmd: kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" | grep -i NodePort
+    cmd: kubectl describe svc awx-service | grep -i NodePort | grep -v Type
   register: awxport
 - name:
   debug: msg="{{ awxport.stdout_lines }}"
