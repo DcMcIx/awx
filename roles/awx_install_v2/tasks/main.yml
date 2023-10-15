@@ -1,0 +1,134 @@
+---
+- name: Install Prerequis
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - make
+    - curl
+    - sudo
+    - net-tools
+    - git
+    - build-essential
+    - jq
+    - python3
+    - python3-pip
+
+- name: Install Kubernetes Plugins Debian
+  pip:
+    name: kubernetes
+    state: latest
+    extra_args: "--break-system-packages"
+
+- name: Install Kubernetes Plugins Ubuntu
+  pip:
+    name: kubernetes
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Création du Répertoire /.kube
+  file:
+    path: /root/.kube
+    state: directory
+    mode: '0755'
+
+- name: Téléchargement k3s
+  shell: 
+    cmd: "{{ item }}"
+    chdir: /tmp
+  loop:
+    - "curl -sfL https://get.k3s.io | sudo bash -"
+    - "chmod 644 /etc/rancher/k3s/k3s.yaml"
+
+- name: Copy Configuration k3s dans "~/.kube"
+  copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /root/.kube/config
+    owner: root
+    mode: '0600'
+    remote_src: yes
+
+- name: Export Variable KUBECONFIG
+  shell:
+    cmd: "export KUBECONFIG=~/.kube/config"
+
+- name: Clone Git Repo AWX-Operator
+  git:
+    repo: https://github.com/ansible/awx-operator.git
+    dest: /tmp/awx-operator
+
+- name: Création du NS
+  k8s:
+    name: awx
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Get AWX Namespace
+  shell:
+    cmd: kubectl get namespaces |grep -i awx
+  register: gns
+- name: Afficher les NS
+  debug: msg="{{ gns.stdout_lines }}"
+
+- name: Export Vars & Make Deploy
+  shell:
+    cmd: "{{ item }}"
+    chdir: /tmp/awx-operator
+  loop:
+    - "kubectl config set-context --current --namespace=awx"
+    - git checkout `curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4`
+    - "export NAMESPACE=awx"
+    - "make deploy"
+    
+- name: Pause de 1 minutes ...
+  pause:
+    minutes: 1
+
+- name: Copie des fichiers manifest Deploy & PVC
+  copy:
+    src: "{{ item }}"
+    dest: /tmp/awx-operator
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - files/pvc.yml
+    - files/awx-deploy.yml
+
+- name: Création Stockage PVC - Persistant
+  k8s:
+    state: present
+    src: /tmp/awx-operator/pvc.yml
+    
+- name: Awx Deploiement - Operator - Web - Postgres
+  k8s:
+    state: present
+    name: awx
+    namespace: awx
+    src: /tmp/awx-operator/awx-deploy.yml
+
+- name: Pause de 5 minutes ...
+  pause:
+    minutes: 5
+
+- name: AWX Operator Port
+  shell: 
+    cmd: kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" | grep -i NodePort
+  register: awxport
+- name:
+  debug: msg="{{ awxport.stdout_lines }}"
+
+- name: AWX comme NS par défaut
+  shell:
+    cmd: echo "kubectl config set-context --current --namespace=awx">>/root/.bashrc
+
+- name: Décodage du Mot De Passe GUI
+  shell:
+    cmd: kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
+  register: awxpasswd
+  ignore_errors: yes
+- name: Mot de Passe GUI
+  debug: msg="Mot De Passe GUI =>  {{ awxpasswd.stdout_lines}}"
+  ignore_errors: yes

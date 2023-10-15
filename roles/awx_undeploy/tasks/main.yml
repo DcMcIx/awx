@@ -1,0 +1,25 @@
+---
+- name: Désinstallation AWX !
+  shell:
+    cmd: "echo 'Pause de réflexion ... Annuler Maintenant ... ou ... Advienne que pourra'"
+- name: Désinstallation AWX !
+  pause:
+    minutes: 1
+
+- name: Copy Configuration k3s dans "~/.kube"
+  copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /root/.kube/config
+    owner: root
+    mode: '0600'
+    remote_src: yes
+
+- name: Suppression du NS AWX
+  k8s:
+    name: awx
+    api_version: v1
+    kind: Namespace
+    state: absent
+
+- name: Reboot Serveur
+  reboot:

@@ -1,0 +1,6 @@
+---
+- name: Banner DcMcIx
+  template:
+    src: files/post_exec.j2
+    dest: /etc/motd
+    mode: '0755'

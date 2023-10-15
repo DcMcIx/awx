@@ -1,0 +1,18 @@
+---
+- name: Désinstallation AWX / AWX Uninstall !
+  shell:
+    cmd: "echo 'Pause de réflexion ... Annuler Maintenant ... ou ... Advienne que pourra'"
+- name: Désinstallation AWX !
+  pause:
+    minutes: 1
+
+- name: DésInstallation AWX
+  hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+
+    - name: Include AWX Roles
+      include_role: 
+        name: awx_undeploy
+      when: ansible_facts['os_family'] == "Debian"

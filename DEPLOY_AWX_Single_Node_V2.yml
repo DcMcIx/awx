@@ -1,0 +1,32 @@
+---
+- name: Installation AWX
+  hosts: all
+  become: yes
+  tasks:
+    - name: Alerte !
+      fail:
+        msg:
+          - "La configuration matérielle du serveur ne correspond pas au minimum requis !"
+          - "Votre configuration actuelle :"
+          - "OS : {{ansible_os_family}}" 
+      when: ansible_distribution != "Debian"
+
+- name: Installation AWX V2
+  hosts: all
+  become: yes
+  tags: awx
+  tasks:
+    - name: Include AWX Roles
+      include_role: 
+        name: awx_install_v2
+      when: ansible_distribution == "Debian"
+
+- name: Post Installation 
+  hosts: all
+  become: yes
+  tags: pexec
+  tasks:
+    - name: Include AWX Roles
+      include_role: 
+        name: post_exec     
+      when: ansible_distribution == "Debian"
