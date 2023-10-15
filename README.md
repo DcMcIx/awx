@@ -50,7 +50,7 @@ On the AWX-Operator Server :
 kubectl config set-context --current --namespace=awx
 kubectl describe svc awx-service | grep -i NodePort | grep -v Type
 ```
-#### How To retrieve the GUI password :
+#### How To retreive the GUI password :
 ```
 kubectl config set-context --current --namespace=awx
 kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
@@ -59,3 +59,10 @@ kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --
 Yes, once the AWX-Operator is installed the server will be reachable from the same local network area
 
 And NO, the server won't be exposed to the internet unless you do so by exposing the IP/NodePort
+
+#### Is this deployment suitable for a "Production" environment :
+Note that no support is provided for this deployment (this is a personal project that I wanted to share based on the original awx/awx-operator project). If you need a reliable production environment with support, please consider looking at :
+
+https://www.redhat.com/en/technologies/management/ansible
+
+https://www.ansible.com
