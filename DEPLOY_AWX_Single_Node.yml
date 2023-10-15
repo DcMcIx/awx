@@ -6,7 +6,7 @@
     - name: Alerte !
       fail:
         msg:
-          - "La configuration matérielle du serveur ne correspond pas au minimum requis !"
+          - "L'installation n'est possible que sur les Distributions Debian !"
           - "Votre configuration actuelle :"
           - "OS : {{ansible_os_family}}" 
       when: ansible_distribution != "Debian"
