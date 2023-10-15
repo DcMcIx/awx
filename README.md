@@ -50,7 +50,7 @@ On the AWX-Operator Server :
 kubectl config set-context --current --namespace=awx
 kubectl describe svc awx-service | grep -i NodePort | grep -v Type
 ```
-#### How To retreive the GUI password :
+#### How To retrieve the GUI password :
 ```
 kubectl config set-context --current --namespace=awx
 kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
