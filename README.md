@@ -10,7 +10,7 @@ Get admin Password for GUI access :
 
 kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
 
-Use The displayed password to Access the GUI :
+Wait until All pods are Up & running and use The displayed password to Access the GUI :
 
 http://<HOST_IP>:[NodePort]
 
