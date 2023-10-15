@@ -16,7 +16,7 @@ http://<HOST_IP>:[NodePort]
 
 NOTE: NodePort and GUI password are displayed during the playbook run
 
-You can alo user my Custom AWX-EE (Including community.general and other collections) :
+You can also use my Custom AWX-EE (Including community.general and other collections) :
 
 Custom EE with PY39 : docker.io/dcmcix/py39-awx-ee:latest
 
