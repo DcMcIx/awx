@@ -88,8 +88,8 @@
     group: root
     mode: '0755'
   loop:
-    - files/pvc.yml
-    - files/awx-deploy.yml
+    - pvc.yml
+    - awx-deploy.yml
 
 - name: Création Stockage PVC - Persistant
   k8s:
@@ -114,9 +114,11 @@
 - name:
   debug: msg="{{ awxport.stdout_lines }}"
 
-- name: AWX comme NS par défaut
-  shell:
-    cmd: echo "kubectl config set-context --current --namespace=awx">>/root/.bashrc
+- name: Ajout Alias pour root 
+  lineinfile:
+    path: "/root/.bashrc"
+    line: "kubectl config set-context --current --namespace=awx"
+    insertafter: EOF
 
 - name: Décodage du Mot De Passe GUI
   shell:

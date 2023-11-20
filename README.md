@@ -26,6 +26,13 @@ You can target your server by adding '--limit' flag :
 ansible-playbook DEPLOY_AWX_Single_Node.yml --limit [SERVER_IP_OR_SERVER_NAME]
 ```
 
+## Uninstall AWX-Operator
+
+To UNdeploy AWX :
+
+```bash
+ansible-playbook UNDEPLOY_AWX.yml
+```
 
 ## Custom AWX-EE
 You can use my custom EE (Including community.general and many other collections)

@@ -1,13 +1,9 @@
 ---
-- name: Alerte Suppression AWX !
-  debug: 
-    msg: 
-      - "Pause de réflexion ... Annuler Maintenant ... ou ... Advienne que pourra"
-      - "Notez que toutes les ressources dans le Namespace awx seront supprimées ..."
-
-- name: Alerte Suppression AWX !
-  pause:
-    minutes: 1
+- name: Nettoyage awx-operator
+  file:
+    path: /tmp/awx-operator
+    state: absent
+  ignore_errors: yes
 
 - name: Copy Configuration k3s dans "~/.kube"
   copy:
@@ -17,12 +13,23 @@
     mode: '0600'
     remote_src: yes
 
-- name: Suppression du NS AWX
+- name: Suppression du NS AWX # kubectl delete -n awx --all
   k8s:
     name: awx
     api_version: v1
     kind: Namespace
     state: absent
 
-- name: Reboot Serveur
-  reboot:
+- name: Suppression du Node AWX
+  shell: kubectl delete node awx
+  ignore_errors: yes
+
+- name: Supprimer Alias Root
+  replace:
+    path: "/root/.bashrc"
+    regexp: 'kubectl config set-context --current --namespace=awx'
+    replace: ''
+
+- name: Purge ancienne config
+  shell: "/usr/local/bin/k3s-uninstall.sh"
+  ignore_errors: yes
