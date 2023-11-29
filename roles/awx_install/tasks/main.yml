@@ -50,7 +50,7 @@
 - name: Clone Git Repo AWX-Operator
   git:
     repo: https://github.com/ansible/awx-operator.git
-    dest: /tmp/awx-operator
+    dest: "{{path_awx_tmp}}"
 
 - name: Création du NS
   k8s:
@@ -69,7 +69,7 @@
 - name: Export Vars & Make Deploy
   shell:
     cmd: "{{ item }}"
-    chdir: /tmp/awx-operator
+    chdir: "{{path_awx_tmp}}"
   loop:
     - "kubectl config set-context --current --namespace=awx"
     - git checkout `curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4`
@@ -83,7 +83,7 @@
 - name: Copie des fichiers manifest Deploy & PVC
   copy:
     src: "{{ item }}"
-    dest: /tmp/awx-operator
+    dest: "{{path_awx_tmp}}"
     owner: root
     group: root
     mode: '0755'
@@ -94,14 +94,14 @@
 - name: Création Stockage PVC - Persistant
   k8s:
     state: present
-    src: /tmp/awx-operator/pvc.yml
+    src: "{{path_awx_tmp}}/pvc.yml"
     
 - name: Awx Deploiement - Operator - Web - Postgres
   k8s:
     state: present
     name: awx
     namespace: awx
-    src: /tmp/awx-operator/awx-deploy.yml
+    src: "{{path_awx_tmp}}/awx-deploy.yml"
 
 - name: Pause de 5 minutes ...
   pause:
@@ -128,3 +128,4 @@
 - name: Mot de Passe GUI
   debug: msg="Mot De Passe GUI =>  {{ awxpasswd.stdout_lines}}"
   ignore_errors: yes
+  notify: clean
