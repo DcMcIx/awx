@@ -1,7 +1,7 @@
 ---
 - name: Nettoyage awx-operator
   file:
-    path: /tmp/awx-operator
+    path: "{{path_awx_tmp}}"
     state: absent
   ignore_errors: yes
 

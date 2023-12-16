@@ -1,5 +1,5 @@
 ---
-- name: Installation AWX
+- name: Installation AWX Check
   hosts: all
   become: yes
   tasks:

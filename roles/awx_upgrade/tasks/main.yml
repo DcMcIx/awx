@@ -1,0 +1,90 @@
+---
+- name: Version de l'image AWX-Operator actuelle
+  shell:
+    chdir:
+    cmd: "kubectl describe pod awx-operator-controller-manager | grep quay.io/ansible/awx-operator |grep -i 'Image:'"
+  register: awx_old_img_ver
+- debug:
+    msg: "{{awx_old_img_ver.stdout_lines}}"
+
+- name: Clone Git AWX-Operator
+  git:
+    repo: https://github.com/ansible/awx-operator.git
+    dest: "{{path_awx_tmp}}"
+
+- name: Delete AWX Deployment
+  k8s:
+    api_version: v1
+    kind: Deployment
+    name: awx-operator-controller-manager
+    namespace: awx
+    state: absent
+
+- name: Delete AWX ServiceAccount
+  k8s:
+    api_version: v1
+    kind: ServiceAccount
+    namespace: awx
+    name: awx-operator-controller-manager
+    state: absent
+
+- name: Delete AWX RoleBinding
+  k8s:
+    api_version: v1
+    kind: RoleBinding
+    name: awx-operator-awx-manager-rolebinding
+    state: absent
+
+- name: Delete AWX Role
+  k8s:
+    api_version: v1
+    kind: Role
+    name: awx-operator-awx-manager-role
+    state: absent
+
+- name: Pause de 2 minutes ...
+  pause:
+    minutes: 2
+
+- name: Export Vars & Make Deploy
+  shell:
+    cmd: "{{ item }}"
+    chdir: "{{path_awx_tmp}}"
+  loop:
+    - "kubectl config set-context --current --namespace=awx"
+    - git checkout `curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4`
+    - export NAMESPACE=awx
+    - make deploy
+
+- name: Pause de 5 minutes ...
+  pause:
+    minutes: 5
+
+- name: AWX Operator Port
+  shell: 
+    cmd: kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" | grep -i NodePort
+  register: awxport
+- name: GUI IP Port accès
+  debug: 
+    msg: "{{ awxport.stdout_lines }}"
+
+- name: Décodage du Mot De Passe GUI
+  shell:
+    cmd: kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
+  register: awxpasswd
+  ignore_errors: yes
+
+- name: Mot de Passe GUI
+  debug: 
+    msg: "Mot De Passe GUI =>  {{ awxpasswd.stdout_lines}}"
+  ignore_errors: yes
+  
+- name: Version de l'image AWX-Operator Après Upgrade
+  shell:
+    chdir:
+    cmd: "kubectl describe pod awx-operator-controller-manager | grep quay.io/ansible/awx-operator |grep -i 'Image:'"
+  register: awx_new_img_ver
+
+- debug:
+    msg: "{{awx_new_img_ver.stdout_lines}}"
+  notify: clean

@@ -1,0 +1,18 @@
+---
+- name: DésInstallation AWX
+  hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Alerte !
+      fail:
+        msg:
+          - "La configuration matérielle du serveur ne correspond pas au minimum requis ! DcMcIx.net"
+          - "Votre configuration actuelle :"
+          - "OS : {{ansible_os_family}}" 
+      when: ansible_distribution != "Debian"
+
+    - name: Include AWX Roles
+      include_role: 
+        name: awx_undeploy
+      when: ansible_distribution == "Debian"

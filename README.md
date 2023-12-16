@@ -19,11 +19,19 @@ To deploy AWX make sure you have ansible installed and your inventory populated 
 Playbook execution: 
 
 ```bash
-ansible-playbook DEPLOY_AWX_Single_Node.yml
+ansible-playbook deploy_awx_single_node.yml
 ```
 You can target your server by adding '--limit' flag :
 ```bash
-ansible-playbook DEPLOY_AWX_Single_Node.yml --limit [SERVER_IP_OR_SERVER_NAME]
+ansible-playbook deploy_awx_single_node.yml --limit [SERVER_IP_OR_SERVER_NAME]
+```
+
+## Upgrade AWX-Operator
+
+To Upgrade AWX to the latest release :
+
+```bash
+ansible-playbook upgrade_awx_single_node.yml
 ```
 
 ## Uninstall AWX-Operator
@@ -31,7 +39,8 @@ ansible-playbook DEPLOY_AWX_Single_Node.yml --limit [SERVER_IP_OR_SERVER_NAME]
 To UNdeploy AWX :
 
 ```bash
-ansible-playbook UNDEPLOY_AWX.yml
+ansible-playbook undeploy_awx_single_node.yml
+Note : All AWX Deployment and K3S will be deleted 
 ```
 
 ## Custom AWX-EE
