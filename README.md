@@ -32,6 +32,7 @@ To Upgrade AWX to the latest release :
 
 ```bash
 ansible-playbook upgrade_awx_single_node.yml
+Note: All your data will be preserved (Postgres DB and Persistant volumes won't be wiped) 
 ```
 
 ## Uninstall AWX-Operator
