@@ -1,4 +1,10 @@
 ---
+- name: Nettoyage
+  file:
+    path: "{{path_awx_tmp}}"
+    state: absent
+  ignore_errors: yes
+
 - name: Install Prerequis
   apt:
     update_cache: yes
@@ -20,6 +26,12 @@
     name: kubernetes
     state: latest
     extra_args: "--break-system-packages"
+
+- name: Install Kubernetes Plugins Ubuntu
+  pip:
+    name: kubernetes
+    state: present
+  when: ansible_distribution == 'Ubuntu'
 
 - name: Création du Répertoire /.kube
   file:
@@ -109,12 +121,12 @@
 
 - name: AWX Operator Port
   shell: 
-    cmd: kubectl describe svc awx-service | grep -i NodePort | grep -v Type
+    cmd: kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" | grep -i NodePort
   register: awxport
 - name:
   debug: msg="{{ awxport.stdout_lines }}"
 
-- name: Ajout Alias pour root 
+- name: Ajout Aliases pour root 
   lineinfile:
     path: "/root/.bashrc"
     line: "kubectl config set-context --current --namespace=awx"

@@ -1,4 +1,10 @@
 ---
+- name: Nettoyage
+  file:
+    path: "{{path_awx_tmp}}"
+    state: absent
+  ignore_errors: yes
+
 - name: Version de l'image AWX-Operator actuelle
   shell:
     chdir:

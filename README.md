@@ -19,11 +19,11 @@ To deploy AWX make sure you have ansible installed and your inventory populated 
 Playbook execution: 
 
 ```bash
-ansible-playbook deploy_awx_single_node.yml
+ansible-playbook AWX_Deploy_On_Single_Node_K3S.yml
 ```
 You can target your server by adding '--limit' flag :
 ```bash
-ansible-playbook deploy_awx_single_node.yml --limit [SERVER_IP_OR_SERVER_NAME]
+ansible-playbook AWX_Deploy_On_Single_Node_K3S.yml --limit [SERVER_IP_OR_SERVER_NAME]
 ```
 
 ## Upgrade AWX-Operator
@@ -31,7 +31,7 @@ ansible-playbook deploy_awx_single_node.yml --limit [SERVER_IP_OR_SERVER_NAME]
 To Upgrade AWX to the latest release :
 
 ```bash
-ansible-playbook upgrade_awx_single_node.yml
+ansible-playbook AWX_Upgrade_Single_Node_K3S_V2.yml
 Note: All your data will be preserved (Postgres DB and Persistant volumes won't be wiped) 
 ```
 
@@ -40,7 +40,7 @@ Note: All your data will be preserved (Postgres DB and Persistant volumes won't 
 To UNdeploy AWX :
 
 ```bash
-ansible-playbook undeploy_awx_single_node.yml
+ansible-playbook AWX_UNDEPLOY_Single_Node_K3S.yml
 Note : All AWX Deployment and K3S will be deleted 
 ```
 

@@ -20,8 +20,8 @@
     kind: Namespace
     state: absent
 
-- name: Suppression du Node AWX
-  shell: kubectl delete node awx
+- name: Suppression du NS AWX
+  shell: kubectl delete ns awx
   ignore_errors: yes
 
 - name: Supprimer Alias Root
@@ -30,6 +30,6 @@
     regexp: 'kubectl config set-context --current --namespace=awx'
     replace: ''
 
-- name: Purge ancienne config
+- name: Purge ancienne config K3S
   shell: "/usr/local/bin/k3s-uninstall.sh"
   ignore_errors: yes

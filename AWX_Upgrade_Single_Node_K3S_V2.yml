@@ -2,7 +2,7 @@
 - name: Check Prérequis Avant Upgarde AWX
   hosts: all
   become: yes
-  tasks: 
+  tasks:
     - name: Alerte !
       fail:
         msg:
@@ -11,7 +11,11 @@
           - "OS : {{ansible_os_family}}" 
       when: ansible_distribution != "Debian"
 
+- name: Upgrade AWX
+  hosts: all
+  become: yes
+  tasks:
     - name: Include AWX Roles
       include_role: 
-        name: awx_upgrade
+        name: awx_upgrade_single_node_k3s_v2
       when: ansible_distribution == "Debian"

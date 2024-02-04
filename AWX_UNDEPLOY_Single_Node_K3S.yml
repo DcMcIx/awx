@@ -1,0 +1,11 @@
+---
+- name: DésInstallation AWX
+  hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+
+    - name: Include AWX Roles
+      include_role: 
+        name: awx_undeploy_single_node_k3s
+      when: ansible_distribution == "Debian"
