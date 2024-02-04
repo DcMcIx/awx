@@ -17,5 +17,5 @@
   tasks:
     - name: Include AWX Roles
       include_role: 
-        name: awx_upgrade_single_node_k3s_v2
+        name: awx_upgrade_single_node_k3s
       when: ansible_distribution == "Debian"

@@ -31,7 +31,7 @@ ansible-playbook AWX_Deploy_On_Single_Node_K3S.yml --limit [SERVER_IP_OR_SERVER_
 To Upgrade AWX to the latest release :
 
 ```bash
-ansible-playbook AWX_Upgrade_Single_Node_K3S_V2.yml
+ansible-playbook AWX_Upgrade_Single_Node_K3S.yml
 Note: All your data will be preserved (Postgres DB and Persistant volumes won't be wiped) 
 ```
 
